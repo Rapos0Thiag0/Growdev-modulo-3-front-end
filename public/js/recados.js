@@ -30,7 +30,7 @@ const logado = JSON.parse(localStorage.getItem("Logado - " + user));
 function verificarLogado() {
   if (logado == null) {
     alert("Voçê não está logado!");
-    window.location.href = "../html/login.html";
+    window.location.href = "..public/html/login.html";
   }
 }
 verificarLogado();
@@ -141,11 +141,17 @@ function addMensagem(desc, det) {
       })
       .then((response) => {
         const userLogado = JSON.parse(localStorage.getItem("Logado - " + user));
+        const userLogado1 = JSON.parse(localStorage.getItem(user));
         userLogado.mensagens.push({
           desc: descricaoNova,
           det: detalhamentoNovo,
         });
+        userLogado1.mensagens.push({
+          desc: descricaoNova,
+          det: detalhamentoNovo,
+        });
         localStorage.setItem("Logado - " + user, JSON.stringify(userLogado));
+        localStorage.setItem(user, JSON.stringify(userLogado));
       })
       .catch((error) => {
         console.log(error);
@@ -170,5 +176,5 @@ function resetarInputs() {
 
 function logout() {
   localStorage.removeItem("Logado - " + user);
-  location.href = "../html/login.html";
+  location.href = "login.html";
 }

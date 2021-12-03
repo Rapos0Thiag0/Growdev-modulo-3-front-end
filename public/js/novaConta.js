@@ -7,21 +7,18 @@ class Usuario {
     this.senha = senha;
   }
 }
-let users = [];
 
 async function CriaNovoUsuario(nome, senha) {
   const user = new Usuario(nome, senha);
   await axios
     .post(`${urlDev}/api`, user)
     .then((response) => {
-      users.push(response.data);
-      console.log(users);
-      return users;
+      return response.data;
     })
     .then((respo) => {
-      localStorage.setItem("Usuários", JSON.stringify(respo));
+      localStorage.setItem(nome, JSON.stringify(respo));
       resetarInputs();
-      window.location.pathname = "../html/login.html";
+      window.location.pathname = "../public/html/login.html";
     })
     .catch((err) => {
       console.log(err.response);

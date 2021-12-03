@@ -1,18 +1,12 @@
 const url = "https://growdev-mod-3.herokuapp.com";
 const urlDev = "http://localhost:5000";
-const Usuarios = JSON.parse(localStorage.getItem("Usuários"));
-console.log(Usuarios);
 
 function login() {
   const usuario = document.querySelector("#usuarioNoLogin");
   const senha = document.querySelector("#senhaNoLogin");
-  const user = Usuarios.filter((us) => {
-    return us.nome.includes(usuario.value);
-  });
-
-  console.log(user[0]);
+  const user = JSON.parse(localStorage.getItem(usuario.value));
   axios
-    .get(`${urlDev}/api/${user[0].id}`, user[0])
+    .get(`${urlDev}/api/${user.id}`, user)
     .then((response) => {})
     .catch((err) => {
       console.log(err.response);
@@ -32,14 +26,14 @@ function login() {
     document.querySelector("#senhaNoLogin").value = "";
   }
 
-  if (user[0]) {
-    if (user[0].senha === senha.value) {
-      logado(user[0]);
+  if (user) {
+    if (user.senha === senha.value) {
+      logado(user);
       window.location.href =
-        "http://127.0.0.1:5501/html/recados.html?user=" +
-        user[0].nome +
+        "http://127.0.0.1:5501/public/html/recados.html?user=" +
+        user.nome +
         "&id=" +
-        user[0].id;
+        user.id;
     } else {
       modal1.style.display = "block";
       resetarInputs();
