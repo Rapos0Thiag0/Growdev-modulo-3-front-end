@@ -1,4 +1,4 @@
-const url = "https://growdev-mod-3.herokuapp.com";
+const url = "https://growdev-mod-3-back.herokuapp.com";
 const urlDev = "http://localhost:5000";
 
 // garante que a tabela comece com todo o conteúdo visível.
@@ -37,7 +37,7 @@ verificarLogado();
 
 // função que carrega as informações na tabela.
 async function mostrarTabela() {
-  await axios.get(`${urlDev}/api/` + userId).then((response) => {
+  await axios.get(`${url}/api/` + userId).then((response) => {
     let msgs = response.data.data;
     const table = document.querySelector("#tbody");
 
@@ -75,7 +75,7 @@ function apagarLinha(posicao) {
 
   if (confirm("Deseja realmente deletar esta mensagem?")) {
     axios
-      .delete(`${urlDev}/api/${userId}/mensagem/${id}`)
+      .delete(`${url}/api/${userId}/mensagem/${id}`)
       .then((response) => {
         console.log(response);
 
@@ -92,7 +92,7 @@ function apagarLinha(posicao) {
 
 function editarLinha(posicao) {
   let id = posicao;
-  axios.get(`${urlDev}/api/${userId}/mensagem/${id}`).then((response) => {
+  axios.get(`${url}/api/${userId}/mensagem/${id}`).then((response) => {
     let msg = response.data.message;
     let novaDesc = msg.desc;
     let novoDet = msg.det;
@@ -109,7 +109,7 @@ function editarLinha(posicao) {
     const desNova = document.querySelector("#descricaoRecados").value;
     const detNovo = document.querySelector("#detalhamentoRecados").value;
     axios
-      .put(`${urlDev}/api/${userId}/mensagem/${id}`, {
+      .put(`${url}/api/${userId}/mensagem/${id}`, {
         desc: desNova,
         det: detNovo,
       })
@@ -135,11 +135,12 @@ function addMensagem(desc, det) {
     alert("Preencha os campos de descrição e detalhamento!");
   } else {
     axios
-      .post(`${urlDev}/api/` + userId, {
+      .post(`${url}/api/` + userId, {
         desc: descricaoNova,
         det: detalhamentoNovo,
       })
       .then((response) => {
+        mostrarTabela();
         const userLogado = JSON.parse(localStorage.getItem("Logado - " + user));
         const userLogado1 = JSON.parse(localStorage.getItem(user));
         userLogado.mensagens.push({

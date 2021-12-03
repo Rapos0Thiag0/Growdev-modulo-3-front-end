@@ -1,4 +1,4 @@
-const url = "https://growdev-mod-3.herokuapp.com";
+const url = "https://growdev-mod-3-back.herokuapp.com";
 const urlDev = "http://localhost:5000";
 
 function login() {
@@ -6,7 +6,7 @@ function login() {
   const senha = document.querySelector("#senhaNoLogin");
   const user = JSON.parse(localStorage.getItem(usuario.value));
   axios
-    .get(`${urlDev}/api/${user.id}`, user)
+    .get(`${url}/api/${user.id}`, user)
     .then((response) => {})
     .catch((err) => {
       console.log(err.response);
