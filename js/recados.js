@@ -30,7 +30,7 @@ const logado = JSON.parse(localStorage.getItem("Logado - " + user));
 function verificarLogado() {
   if (logado == null) {
     alert("Voçê não está logado!");
-    window.location.href = "..public/html/login.html";
+    window.location.href = "./index.html";
   }
 }
 verificarLogado();
@@ -56,11 +56,11 @@ async function mostrarTabela() {
       td_detalhamento.innerHTML = msgs.mensagens[i].det;
 
       let imgEditar = document.createElement("img");
-      imgEditar.src = "../img/edit.svg";
+      imgEditar.src = "./img/edit.svg";
       imgEditar.setAttribute("onclick", "editarLinha(" + i + ")");
 
       let imgExcluir = document.createElement("img");
-      imgExcluir.src = "../img/delet.svg";
+      imgExcluir.src = "./img/delet.svg";
       imgExcluir.setAttribute("onclick", "apagarLinha(" + i + ")");
 
       td_acoes.appendChild(imgEditar);
@@ -177,5 +177,5 @@ function resetarInputs() {
 
 function logout() {
   localStorage.removeItem("Logado - " + user);
-  location.href = "login.html";
+  location.href = "index.html";
 }

@@ -30,10 +30,7 @@ function login() {
     if (user.senha === senha.value) {
       logado(user);
       window.location.href =
-        "http://127.0.0.1:5501/public/html/recados.html?user=" +
-        user.nome +
-        "&id=" +
-        user.id;
+        "recados.html?user=" + user.nome + "&id=" + user.id;
     } else {
       modal1.style.display = "block";
       resetarInputs();
