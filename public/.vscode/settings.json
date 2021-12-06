@@ -1,8 +1,0 @@
-{
-  "files.autoSave": "onWindowChange",
-  "editor.wordWrap": "on",
-  "editor.codeActionsOnSave": null,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.mouseWheelZoom": true,
-  "liveServer.settings.port": 5501
-}
