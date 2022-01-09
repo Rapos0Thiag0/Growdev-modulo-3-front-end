@@ -1,5 +1,5 @@
 const url = "https://growdev-mod-3-back.herokuapp.com";
-const urlDev = "http://localhost:5000";
+const urlDev = "http://localhost:8080";
 
 class Usuario {
   constructor(nome, senha) {
@@ -11,20 +11,24 @@ class Usuario {
 async function CriaNovoUsuario(nome, senha) {
   const user = new Usuario(nome, senha);
   await axios
-    .post(`${url}/api`, user)
-    .then((response) => {
-      return response.data;
+    .post(`${urlDev}/user`, user)
+    .then((res) => {
+      const novoUser = {
+        nome: res.data.nome,
+        senha: res.data.senha,
+        uid: res.data.uid,
+      };
+      console.log(novoUser);
+      return novoUser;
     })
-    .then((respo) => {
-      localStorage.setItem(nome, JSON.stringify(respo));
+    .then(() => {
+      // localStorage.setItem(nome, JSON.stringify(respo));
       resetarInputs();
       window.location.pathname = "./index.html";
     })
     .catch((err) => {
-      console.log(err.response);
-      if (err.response.data.error === "empty_fields") {
-        modal1.style.display = "block";
-      } else if (err.response.data.error === "user_exist") {
+      console.log(err.response.data);
+      if (err.response.data === "User_exist") {
         modal4.style.display = "block";
       }
     });

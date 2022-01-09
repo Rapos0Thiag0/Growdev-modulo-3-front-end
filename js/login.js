@@ -1,18 +1,25 @@
 const url = "https://growdev-mod-3-back.herokuapp.com";
-const urlDev = "http://localhost:5000";
+const urlDev = "http://localhost:8080";
 
-function login() {
-  const usuario = document.querySelector("#usuarioNoLogin");
-  const senha = document.querySelector("#senhaNoLogin");
-  const user = JSON.parse(localStorage.getItem(usuario.value));
-  axios
-    .get(`${url}/api/${user.id}`, user)
-    .then((response) => {})
+async function login() {
+  const usuario = document.querySelector("#usuarioNoLogin").value;
+  const senha = document.querySelector("#senhaNoLogin").value;
+  await axios
+    .get(`${urlDev}/user`, { params: { nome: usuario, senha: senha } })
+    .then((res) => {
+      let userLogado = res.data;
+      console.log(userLogado.nome, userLogado.uid);
+      setIdKey(userLogado.uid);
+      resetarInputs();
+      location.href =
+        "recados.html?nome=" + userLogado.nome + "&uid=" + userLogado.uid;
+    })
     .catch((err) => {
-      console.log(err.response);
-      if (err.response.data.error === "empty_fields") {
+      console.log(err.response.data);
+      resetarInputs();
+      if (err.response.data === "field_error") {
         modal1.style.display = "block";
-      } else if (err.response.data.error === "user_exist") {
+      } else if (err.response.data.error === "user_not_exist") {
         modal2.style.display = "block";
       }
     });
@@ -26,19 +33,19 @@ function login() {
     document.querySelector("#senhaNoLogin").value = "";
   }
 
-  if (user) {
-    if (user.senha === senha.value) {
-      logado(user);
-      window.location.href =
-        "recados.html?user=" + user.nome + "&id=" + user.id;
-    } else {
-      modal1.style.display = "block";
-      resetarInputs();
-    }
-  } else {
-    modal2.style.display = "block";
-    resetarInputs();
-  }
+  // if (user) {
+  //   if (user.senha === senha.value) {
+  //     logado(user);
+  //       window.location.href =
+  //         "recados.html?user=" + user.nome + "&id=" + user.id;
+  //   } else {
+  //     modal1.style.display = "block";
+  //     resetarInputs();
+  //   }
+  // } else {
+  //   modal2.style.display = "block";
+  //   resetarInputs();
+  // }
 
   botaoFecharModal1.addEventListener("click", () => {
     modal1.style.display = "none";
@@ -62,7 +69,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function logado(user) {
-  const usuarioLogado = user;
-  localStorage.setItem("Logado - " + user.nome, JSON.stringify(usuarioLogado));
+function setIdKey(userId) {
+  localStorage.setItem("user_id", JSON.stringify(userId));
 }
